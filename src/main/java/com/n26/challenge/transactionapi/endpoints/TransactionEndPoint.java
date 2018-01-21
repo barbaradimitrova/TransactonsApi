@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.inject.Inject;
 
+import java.time.Instant;
+
+import static sun.security.krb5.internal.KerberosTime.now;
+
 
 public class TransactionEndPoint {
 
@@ -20,7 +24,9 @@ public class TransactionEndPoint {
     @RequestMapping(method= RequestMethod.POST,path="/transactions")
     @ResponseStatus(HttpStatus.CREATED)
     public void addTransaction(@RequestBody Transaction transaction) {
+        if (transaction.getTimestamp()- Instant.now().toEpochMilli() < 60){
             transactionService.addTransaction(transaction);
+        }
     }
 }
 
