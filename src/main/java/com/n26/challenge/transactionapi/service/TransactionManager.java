@@ -6,12 +6,13 @@ import com.n26.challenge.transactionapi.model.Transaction;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-public class TransactionService {
-
+public class TransactionManager {
     private final Queue<Transaction> transQueue;
+    StatisticsManager statisticsManager;
 
 
-    public TransactionService() {
+    public TransactionManager(StatisticsManager statisticsManager) {
+        this.statisticsManager = statisticsManager;
         this.transQueue = new ConcurrentLinkedQueue<>();
         Thread thread = new Thread(){
             public void run() {
@@ -24,12 +25,16 @@ public class TransactionService {
     public void addTransaction(Transaction transaction){
         this.transQueue.add(transaction);
     }
-
+    public TransactionStatistics getTransactionStatistics(){
+        return statisticsManager.getTransactions();
+    }
 
     private void process() {
         while (true) {
             Transaction transaction = transQueue.poll();
-            //process transaction
+            if (transaction != null){
+                statisticsManager.processTransaction(transaction);
+            }
 
         }
     }
