@@ -19,8 +19,8 @@ public class TransactionEndPoint {
 
     @RequestMapping(method= RequestMethod.POST,path="/transactions")
     @ResponseStatus(HttpStatus.CREATED)
-    void addTransaction(@RequestBody Transaction transaction) {
-            
+    public void addTransaction(@RequestBody Transaction transaction) {
+            transactionService.addTransaction(transaction);
     }
 }
 
