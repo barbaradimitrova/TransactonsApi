@@ -2,13 +2,9 @@ package com.n26.challenge.transactionapi.service;
 
 import com.n26.challenge.transactionapi.model.Transaction;
 import org.junit.Test;
-import org.springframework.boot.autoconfigure.transaction.TransactionProperties;
-
-import java.util.ArrayList;
-
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
-import static org.echocat.unittest.utils.matchers.IsEqualTo.isEqualTo;
+import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
 public class StatisticsManagerTest {
@@ -19,34 +15,44 @@ public class StatisticsManagerTest {
         StatisticsManager statisticsManager = postTransactions();
         statisticsManager.cleanOldTransactions();
         final int actualSize = statisticsManager.transactionsInMemory.size();
-        assertThat(actualSize, isEqualTo(2));
+        assertThat(actualSize, is(3));
     }
 
     @Test
     public void testValidTransaction() throws Exception {
         Transaction transaction = new Transaction().setTimestamp(System.currentTimeMillis() - 1000);
         final boolean actualValidTransaction = StatisticsManager.isValidTransaction(transaction);
-        assertThat(actualValidTransaction,isEqualTo(TRUE));
+        assertThat(actualValidTransaction,is(TRUE));
 
     }
     @Test
     public void testInvalidTransaction() throws Exception {
         Transaction transaction = new Transaction().setTimestamp(System.currentTimeMillis() - 2*MINUTE_IN_MILLISECONDS);
         final boolean actualInvalidTransaction = StatisticsManager.isValidTransaction(transaction);
-        assertThat(actualInvalidTransaction,isEqualTo(FALSE));
+        assertThat(actualInvalidTransaction,is(FALSE));
     }
 
     @Test
     public void testGetTransactions() throws Exception {
         StatisticsManager statisticsManager = postTransactions();
         TransactionStatistics transactionStatistics = statisticsManager.getTransactions();
-        assertThat(transactionStatistics.getCount(), isEqualTo(3));
-        assertThat(transactionStatistics.getSum(), isEqualTo(100d));
-        assertThat(transactionStatistics.getAvg(), isEqualTo(100d/3));
-        assertThat(transactionStatistics.getMax(), isEqualTo(100d));
-        assertThat(transactionStatistics.getMin(), isEqualTo(-10d));
+        assertThat(transactionStatistics.getCount(), is(3));
+        assertThat(transactionStatistics.getSum(), is(100d));
+        assertThat(transactionStatistics.getAvg(), is(100d/3));
+        assertThat(transactionStatistics.getMax(), is(100d));
+        assertThat(transactionStatistics.getMin(), is(-10d));
     }
-    
+    @Test
+    public void testGetTransactionsIfEmpty() throws Exception {
+        StatisticsManager statisticsManager = new StatisticsManager();
+        TransactionStatistics transactionStatistics = statisticsManager.getTransactions();
+        assertThat(transactionStatistics.getCount(), is(0));
+        assertThat(transactionStatistics.getSum(), is(0d));
+        assertThat(transactionStatistics.getAvg(), is(0d));
+        assertThat(transactionStatistics.getMax(), is(0d));
+        assertThat(transactionStatistics.getMin(), is(0d));
+    }
+
     private StatisticsManager postTransactions() {
         StatisticsManager statisticsManager = new StatisticsManager();
         final long timeNow = System.currentTimeMillis();

@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 public class StatisticsManager {
 
-    final static double TIME_INTERVAL_IN_MILLISECONDS = 60000;
+    final static long TIME_INTERVAL_IN_MILLISECONDS = 60000L;
     LinkedList<Transaction> transactionsInMemory;
 
     @Autowired

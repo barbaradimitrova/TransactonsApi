@@ -1,7 +1,5 @@
-package com.n26.challenge.transactionapi.Util;
+package com.n26.challenge.transactionapi.util;
 
-import com.n26.challenge.transactionapi.endpoints.StatisticEndPoint;
-import com.n26.challenge.transactionapi.endpoints.TransactionEndPoint;
 import com.n26.challenge.transactionapi.service.StatisticsManager;
 import com.n26.challenge.transactionapi.service.TransactionManager;
 import org.springframework.context.annotation.Bean;
