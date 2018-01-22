@@ -1,34 +1,43 @@
 package com.n26.challenge.transactionapi.service;
 
-
 import com.n26.challenge.transactionapi.model.Transaction;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.time.Instant;
-import java.util.List;
+import java.util.*;
 
-import static java.time.Instant.now;
 
 public class StatisticsManager {
 
-    TransactionStatistics transactionStatistics;
-    Transaction[] transactionsInMemory;
-    List<Transaction> transactionsKept;
+    final static double TIME_INTERVAL_IN_MILLISECONDS = 60000;
+    ArrayList<Transaction> transactionsInMemory;
 
-    void processTransaction(Transaction transaction){
-        new TransactionStatistics(transaction, now().toEpochMilli());
+    @Autowired
+    public StatisticsManager() {
+        transactionsInMemory = new ArrayList<>();
+    }
+
+    void processTransaction(Transaction transaction) {
+
+        transactionsInMemory.add(transaction);
+        for (int i = 0; i < transactionsInMemory.size(); i++) {
+            if (System.currentTimeMillis() - transactionsInMemory.get(i).getTimestamp() > TIME_INTERVAL_IN_MILLISECONDS) {
+                transactionsInMemory.remove(i);
+            }
+        }
     }
 
     public TransactionStatistics getTransactions() {
-        for (int i=0; i<transactionsInMemory.length; i++){
-            if (transactionsInMemory[i].getTimestamp() - now().toEpochMilli() < 3600){
-                transactionsKept.add(transactionsInMemory[i]);
-                if (transactionsInMemory[i].getAmount()>=transactionStatistics.getMax()){
-                    transactionStatistics.setMax(transactionsInMemory[i].getAmount());
-                }else{
-                    transactionStatistics.setMin(transactionsInMemory[i].getAmount());
-                }
-            }
+        TransactionStatistics responseStatistics = new TransactionStatistics();
+        transactionsInMemory.stream()
+                .filter(transactionInMemory -> System.currentTimeMillis() - transactionInMemory.getTimestamp() < TIME_INTERVAL_IN_MILLISECONDS)
+                .forEach(responseStatistics::computeTransactionStatistics);
+
+        if (responseStatistics.getCount() == 0) {
+            responseStatistics.setMax(0);
+            responseStatistics.setMin(0);
         }
-        return null ;
+        return responseStatistics;
     }
+
+
 }

@@ -5,8 +5,6 @@ import com.n26.challenge.transactionapi.model.Transaction;
 
 public class TransactionStatistics {
 
-    private double timestamp;
-    private double createdAt;
     private double sum;
     private double avg;
     private double max;
@@ -14,15 +12,13 @@ public class TransactionStatistics {
     private long count;
 
 
-    protected TransactionStatistics(final Transaction transaction, double createdAt)
-    {
-        this.timestamp = transaction.getTimestamp();
-        this.sum = transaction.getAmount();
-        this.avg = transaction.getAmount();
-        this.max = transaction.getAmount();
-        this.min = transaction.getAmount();
-        this.count = 1;
-        this.createdAt = createdAt;
+    protected TransactionStatistics() {
+        this.sum = 0;
+        this.avg = 0;
+        this.max = Long.MIN_VALUE;
+        this.min = Long.MAX_VALUE;
+        this.count = 0;
+
     }
 
     public double getSum() {
@@ -68,5 +64,15 @@ public class TransactionStatistics {
     public TransactionStatistics setCount(long count) {
         this.count = count;
         return this;
+    }
+
+    public void computeTransactionStatistics(final Transaction transactionInMemory) {
+
+        this.max = Math.max(this.max, transactionInMemory.getAmount());
+        this.min = Math.min(this.min, transactionInMemory.getAmount());
+        this.sum = transactionInMemory.getAmount() + this.sum;
+        this.count ++;
+        this.avg = this.sum/this.count;
+
     }
 }

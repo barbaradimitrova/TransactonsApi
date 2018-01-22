@@ -3,22 +3,22 @@ package com.n26.challenge.transactionapi.endpoints;
 
 import com.n26.challenge.transactionapi.service.TransactionStatistics;
 import com.n26.challenge.transactionapi.service.TransactionManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.inject.Inject;
-
+@RestController
+@RequestMapping("/statistics")
 public class StatisticEndPoint {
 
-    @Inject
+    @Autowired
     TransactionManager transactionManager;
 
-    @RequestMapping(method= RequestMethod.GET,path="/statistics")
+    @RequestMapping(method = RequestMethod.GET, path = "")
     public TransactionStatistics getStatistics() {
         return transactionManager.getTransactionStatistics();
     }
-
-
 }
 
 

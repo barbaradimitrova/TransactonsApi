@@ -2,10 +2,13 @@ package com.n26.challenge.transactionapi.service;
 
 
 import com.n26.challenge.transactionapi.model.Transaction;
+import org.springframework.stereotype.Service;
+
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
+@Service
 public class TransactionManager {
     private final Queue<Transaction> transQueue;
     StatisticsManager statisticsManager;
@@ -26,7 +29,7 @@ public class TransactionManager {
         this.transQueue.add(transaction);
     }
     public TransactionStatistics getTransactionStatistics(){
-        return statisticsManager.getTransactions();
+            return statisticsManager.getTransactions();
     }
 
     private void process() {
