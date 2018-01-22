@@ -38,7 +38,6 @@ public class TransactionManager {
             if (transaction != null){
                 statisticsManager.processTransaction(transaction);
             }
-
         }
     }
 }

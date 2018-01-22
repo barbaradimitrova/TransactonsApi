@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
+import static com.n26.challenge.transactionapi.service.StatisticsManager.isValidTransaction;
 
 @RestController
 public class TransactionEndPoint {
@@ -17,15 +18,16 @@ public class TransactionEndPoint {
     @Autowired
     TransactionManager transactionManager;
 
-    final static double TIME_INTERVAL_IN_MILLISECONDS = 60000;
 
     @RequestMapping(method= RequestMethod.POST,path="/transactions")
     public ResponseEntity addTransaction(@RequestBody Transaction transaction) {
-        if (System.currentTimeMillis() - transaction.getTimestamp() < TIME_INTERVAL_IN_MILLISECONDS){
+        if (isValidTransaction(transaction)){
             transactionManager.addTransaction(transaction);
            return ResponseEntity.status(HttpStatus.OK).build();
        }
         return ResponseEntity.status((HttpStatus.NO_CONTENT)).build();
     }
+
+
 }
 

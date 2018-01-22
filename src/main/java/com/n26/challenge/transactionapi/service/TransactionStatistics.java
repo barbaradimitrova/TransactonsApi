@@ -9,7 +9,7 @@ public class TransactionStatistics {
     private double avg;
     private double max;
     private double min;
-    private long count;
+    private int count;
 
 
     protected TransactionStatistics() {
@@ -57,11 +57,11 @@ public class TransactionStatistics {
         return this;
     }
 
-    public long getCount() {
+    public int getCount() {
         return count;
     }
 
-    public TransactionStatistics setCount(long count) {
+    public TransactionStatistics setCount(int count) {
         this.count = count;
         return this;
     }
