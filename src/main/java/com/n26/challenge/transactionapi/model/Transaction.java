@@ -1,8 +1,6 @@
 package com.n26.challenge.transactionapi.model;
 
 
-import org.springframework.web.bind.annotation.RequestBody;
-
 public class Transaction {
 
     private double amount;

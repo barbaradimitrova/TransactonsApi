@@ -1,7 +1,5 @@
-package com.n26.challenge.transactionapi.service;
+package com.n26.challenge.transactionapi.model;
 
-
-import com.n26.challenge.transactionapi.model.Transaction;
 
 public class TransactionStatistics {
 
@@ -12,7 +10,7 @@ public class TransactionStatistics {
     private int count;
 
 
-    protected TransactionStatistics() {
+    public TransactionStatistics() {
         this.sum = 0;
         this.avg = 0;
         this.max = Long.MIN_VALUE;

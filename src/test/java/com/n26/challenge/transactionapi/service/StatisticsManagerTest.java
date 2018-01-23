@@ -1,11 +1,13 @@
 package com.n26.challenge.transactionapi.service;
 
 import com.n26.challenge.transactionapi.model.Transaction;
+import com.n26.challenge.transactionapi.model.TransactionStatistics;
 import org.junit.Test;
+
 import static java.lang.Boolean.FALSE;
 import static java.lang.Boolean.TRUE;
 import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertThat;
 
 public class StatisticsManagerTest {
 

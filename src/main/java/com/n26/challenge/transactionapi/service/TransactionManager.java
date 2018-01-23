@@ -2,8 +2,8 @@ package com.n26.challenge.transactionapi.service;
 
 
 import com.n26.challenge.transactionapi.model.Transaction;
+import com.n26.challenge.transactionapi.model.TransactionStatistics;
 import org.springframework.stereotype.Service;
-
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;

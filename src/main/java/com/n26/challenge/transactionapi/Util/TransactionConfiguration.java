@@ -13,6 +13,7 @@ public class TransactionConfiguration {
     public TransactionManager transactionManager(StatisticsManager statisticsManager) {
         return new TransactionManager(statisticsManager);
     }
+
     @Bean
     public StatisticsManager statisticsManager() {
         return new StatisticsManager();
