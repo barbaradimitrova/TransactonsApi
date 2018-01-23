@@ -9,13 +9,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/statistics")
 public class StatisticEndPoint {
 
     @Autowired
     TransactionManager transactionManager;
 
-    @RequestMapping(method = RequestMethod.GET, path = "")
+    @RequestMapping(method = RequestMethod.GET, path = "/statistics")
     public TransactionStatistics getStatistics() {
         return transactionManager.getTransactionStatistics();
     }

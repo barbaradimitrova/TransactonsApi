@@ -10,13 +10,13 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Service
 public class TransactionManager {
-    private final Queue<Transaction> transQueue;
+    private final Queue<Transaction> queueOfTransactions;
     StatisticsManager statisticsManager;
 
 
     public TransactionManager(StatisticsManager statisticsManager) {
         this.statisticsManager = statisticsManager;
-        this.transQueue = new ConcurrentLinkedQueue<>();
+        this.queueOfTransactions = new ConcurrentLinkedQueue<>();
         Thread thread = new Thread(){
             public void run() {
                 process();
@@ -26,7 +26,7 @@ public class TransactionManager {
     }
 
     public void addTransaction(Transaction transaction){
-        this.transQueue.add(transaction);
+        this.queueOfTransactions.add(transaction);
     }
     public TransactionStatistics getTransactionStatistics(){
             return statisticsManager.getTransactions();
@@ -34,7 +34,7 @@ public class TransactionManager {
 
     private void process() {
         while (true) {
-            Transaction transaction = transQueue.poll();
+            Transaction transaction = queueOfTransactions.poll();
             if (transaction != null){
                 statisticsManager.processTransaction(transaction);
             }
